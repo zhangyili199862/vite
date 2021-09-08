@@ -9,10 +9,11 @@ export default defineComponent({
   setup() {
     return () => {
       return (
-        <div class={`root ${classes.moduleClass}`}>
-          hello {a.name}
+        <>
+          <div class={`root ${classes.moduleClass}`}>hello {a.name}</div>
           <img src={logo}></img>
-        </div>
+          <p>haha3</p>
+        </>
       )
     }
   },
