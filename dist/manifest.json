@@ -1,0 +1,51 @@
+{
+  "index.html": {
+    "file": "assets/index.06a1479e.js",
+    "src": "index.html",
+    "isEntry": true,
+    "imports": [
+      "_vendor.b11ade54.js"
+    ],
+    "dynamicImports": [
+      "src/glob/a.js",
+      "src/glob/a.json",
+      "src/glob/b.js",
+      "src/glob/b.json",
+      "src/glob/test-1.js"
+    ],
+    "css": [
+      "assets/index.d36181a4.css"
+    ],
+    "assets": [
+      "assets/logo.03d6d6da.png"
+    ]
+  },
+  "_vendor.b11ade54.js": {
+    "file": "assets/vendor.b11ade54.js"
+  },
+  "src/glob/a.js": {
+    "file": "assets/a.2e5151db.js",
+    "src": "src/glob/a.js",
+    "isDynamicEntry": true
+  },
+  "src/glob/a.json": {
+    "file": "assets/a.3a044b95.js",
+    "src": "src/glob/a.json",
+    "isDynamicEntry": true
+  },
+  "src/glob/b.js": {
+    "file": "assets/b.68685cb4.js",
+    "src": "src/glob/b.js",
+    "isDynamicEntry": true
+  },
+  "src/glob/b.json": {
+    "file": "assets/b.88c6e6f9.js",
+    "src": "src/glob/b.json",
+    "isDynamicEntry": true
+  },
+  "src/glob/test-1.js": {
+    "file": "assets/test-1.f422b5d8.js",
+    "src": "src/glob/test-1.js",
+    "isDynamicEntry": true
+  }
+}
