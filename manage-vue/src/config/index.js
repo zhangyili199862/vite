@@ -1,7 +1,7 @@
 /**
  * 环境配置封装
  */
-const env = import.meta.MODE || "prod";
+const env = import.meta.env.MODE || "prod";
 const EnvConfig = {
   dev: {
     baseApi: "/",
@@ -22,5 +22,6 @@ const EnvConfig = {
 export default {
   env,
   mock: true,
+  namespace: "manager",
   ...EnvConfig[env],
 };

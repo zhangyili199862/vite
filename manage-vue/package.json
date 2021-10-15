@@ -2,7 +2,7 @@
   "name": "manage-vue",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode dev",
     "build": "vite build",
     "serve": "vite preview"
   },
