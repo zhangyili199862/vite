@@ -13,10 +13,13 @@ var VSHADER_SOURCE =
 //片元着色器
 var FSHADER_SOURCE =
   "precision mediump float;\n" +
-  "uniform sampler2D u_Sampler;\n" +
+  "uniform sampler2D u_Sampler0;\n" +
+  "uniform sampler2D u_Sampler1;\n" +
   "varying vec2 v_TexCoord;\n" +
   "void main(){\n" +
-  " gl_FragColor = texture2D(u_Sampler,v_TexCoord);\n" +
+  " vec4 color0  = texture2D(u_Sampler0,v_TexCoord);\n" +
+  " vec4 color1  = texture2D(u_Sampler1,v_TexCoord);\n" +
+  " gl_FragColor = color0* color1;\n"+
   "}\n";
 
 function main() {
@@ -96,32 +99,45 @@ function initVertexBuffers(gl) {
   return n;
 }
 function initTextures(gl, n) {
-  var texture = gl.createTexture();
-  if (!texture) {
+  var texture0 = gl.createTexture();
+  var texture1 = gl.createTexture();
+  if (!texture0 || !texture1) {
     console.log("Failed to create the texture object");
     return false;
   }
   //获取u_Sampler的存储位置
-  var u_Sampler = gl.getUniformLocation(gl.program, "u_Sampler");
-  if (u_Sampler < 0) {
+  var u_Sampler0 = gl.getUniformLocation(gl.program, "u_Sampler0");
+  var u_Sampler1 = gl.getUniformLocation(gl.program, "u_Sampler1");
+  if (u_Sampler0 < 0 || u_Sampler1<0) {
     console.log("Failed to find the u_Sampler object");
     return false;
   }
-  var image = new Image();
+  var image0 = new Image();
+  var image1 = new Image();
 
   //注册图像加载事件
-  image.onload = function () {
-    loadTexture(gl, n, texture, u_Sampler, image);
+  image0.onload = function () {
+    loadTexture(gl, n, texture0, u_Sampler0, image0,0);
   };
-  image.src = "../resources/sky.jpg";
+  image1.onload = function () {
+    loadTexture(gl, n, texture1, u_Sampler1, image1,1);
+  };
+  image0.src = "../resources/sky.jpg";
+  image1.src = "../resources/circle.gif";
 
   return true;
 }
-
-function loadTexture(gl, n, texture, u_Sampler, image) {
+var g_texUnit0 = false,g_texUnit1 = false;
+function loadTexture(gl, n, texture, u_Sampler, image,texUnit) {
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
   //开启0号纹理单元
-  gl.activeTexture(gl.TEXTURE0);
+  if(texUnit ==0){
+    gl.activeTexture(gl.TEXTURE0);
+    g_texUnit0 = true;
+  }else {
+    gl.activeTexture(gl.TEXTURE1);
+    g_texUnit1 = true;
+  }
   //向target绑定纹理对象
   gl.bindTexture(gl.TEXTURE_2D, texture);
 
@@ -132,9 +148,11 @@ function loadTexture(gl, n, texture, u_Sampler, image) {
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
 
   //将0号纹理传递给着色器
-  gl.uniform1i(u_Sampler, 0);
+  gl.uniform1i(u_Sampler, texUnit);
 
   //清除canvas
   gl.clear(gl.COLOR_BUFFER_BIT);
-  gl.drawArrays(gl.TRIANGLE_STRIP, 0, n);
+  if(g_texUnit0 && g_texUnit1){
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, n);
+  }
 }
